@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>访问量统计</title>
+</head>
+<body>
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div style="padding:20px;width:100%;height:100%;">
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="main" style="width: 1104px;height:464px;">
+    </div>
+</div>
+
+
+<script type="text/javascript" src="js/echarts.min.js"></script>
+<script type="text/javascript" src="堆叠条形图.js"></script>
+<script src="js/echarts-all.js"></script>
+<script src="js/echarts.js"></script>
+<script type="text/javascript">
+    var a;
+    var b;
+    var url = "data.json"
+    /*json文件url，本地的就写本地的位置，如果是服务器的就写服务器的路径*/
+    var request = new XMLHttpRequest();
+    request.open("get", url);/*设置请求方法与路径*/
+    request.send(null);/*不发送数据到服务器*/
+    request.onload = function () {/*XHR对象获取到返回信息后执行*/
+        if (request.status === 200) {/*返回状态为200，即为数据获取成功*/
+            jsons = JSON.parse(request.responseText);
+            console.log(jsons)
+
+            var links = jsons.edge;
+            var nodes = jsons.node;
+            //创建Nodes
+            links = jsons.edge;
+            nodes = jsons.node;
+            //创建links
+            var myChart = echarts.init(document.getElementById('main'), 'macarons');
+
+            categoryArray = [{name: "中场"}, {name: "后卫"}, {name: "前锋"}, {name: '门将'}]
+            jsondata = {"categories": categoryArray, "nodes": nodes, "links": links}
+            //数据格式为Json格式
+            createGraph(myChart, jsondata)
+        }
+    }
+
+
+</script>
+
+</body>
+</html>

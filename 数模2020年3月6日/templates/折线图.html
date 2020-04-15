@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>访问量统计</title>
+</head>
+<body>
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div style="padding:10px;width:100%;height:100%;">
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="main" style="width: 1300px ;height: 600px;">
+    </div>
+  <!--  <div id="main" style="width: 1304px;height:464px;">
+    </div> -->
+</div>
+
+
+<script type="text/javascript" src="js/echarts.min.js"></script>
+<script type="text/javascript" src="折线图.js"></script>
+<script src="js/echarts-all.js"></script>
+<script src="js/echarts.js"></script>
+<script type="text/javascript">
+    var a;
+    var b;
+    //var url = "pro_data/wave/year_data/2014_month_amount_top0to10_notAccum.json"
+    var url = "pro_data/hair_dryer/year_amount_top20to30_notAccum.json"
+    //var url = "pro_data/wave/year_data/2014_month_stars_top0to10_accum.json"
+    /*json文件url，本地的就写本地的位置，如果是服务器的就写服务器的路径*/
+    var request = new XMLHttpRequest();
+    request.open("get", url);/*设置请求方法与路径*/
+    request.send(null);/*不发送数据到服务器*/
+    request.onload = function () {/*XHR对象获取到返回信息后执行*/
+        if (request.status === 200) {/*返回状态为200，即为数据获取成功*/
+            jsons = JSON.parse(request.responseText);
+            console.log(jsons)
+
+
+            //创建Nodes
+            links = jsons.edge;
+            nodes = jsons.node;
+            //创建links
+            var myChart = echarts.init(document.getElementById('main'), 'macarons');
+
+            jsondata = {"series": jsons.json_list, "year_x": jsons.year_x, "yAxis": jsons.yAxis,
+                "chart_name": jsons.chart_name ,"legend": jsons.legend}
+            //数据格式为Json格式
+            createGraph(myChart, jsondata)
+        }
+    }
+
+
+</script>
+
+</body>
+</html>
